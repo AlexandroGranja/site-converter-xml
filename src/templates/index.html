@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processador de XML - Seleção por NF</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin-top: 2rem;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        .card-header {
+            background-color: #4a6da7;
+            color: white;
+            border-radius: 10px 10px 0 0 !important;
+            padding: 1rem;
+        }
+        .upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+        .upload-area:hover {
+            border-color: #4a6da7;
+            background-color: #f0f4f9;
+        }
+        .file-info {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        .progress {
+            height: 25px;
+            margin-top: 1rem;
+            display: none;
+        }
+        .btn-primary {
+            background-color: #4a6da7;
+            border-color: #4a6da7;
+        }
+        .btn-primary:hover {
+            background-color: #3a5a8f;
+            border-color: #3a5a8f;
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        .result-area {
+            display: none;
+            padding: 1rem;
+            background-color: #e8f4ea;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .error-area {
+            display: none;
+            padding: 1rem;
+            background-color: #f8d7da;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .steps-container {
+            margin-top: 2rem;
+        }
+        .step {
+            display: flex;
+            margin-bottom: 1.5rem;
+        }
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background-color: #4a6da7;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        .step-content {
+            flex-grow: 1;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .step-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        footer {
+            margin-top: 3rem;
+            padding: 1rem 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .match-details {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="mb-0">Processador de XML - Seleção por NF</h2>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info" role="alert">
+                    <strong>Objetivo:</strong> Selecionar e compactar XMLs com base nos números de NF da planilha.
+                </div>
+                
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <label for="excelFile" class="form-label">Planilha Excel (.xlsx)</label>
+                            <div class="upload-area" id="excelUploadArea">
+                                <img src="https://cdn-icons-png.flaticon.com/512/888/888850.png" width="48" height="48" alt="Excel icon">
+                                <p class="mt-2">Arraste ou clique para selecionar</p>
+                                <input type="file" class="form-control" id="excelFile" name="excel_file" accept=".xlsx" style="display: none;">
+                                <button type="button" class="btn btn-outline-primary" id="excelSelectBtn">Selecionar arquivo</button>
+                                <div class="file-info" id="excelFileInfo">Nenhum arquivo selecionado</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="zipFile" class="form-label">Arquivo ZIP com XMLs</label>
+                            <div class="upload-area" id="zipUploadArea">
+                                <img src="https://cdn-icons-png.flaticon.com/512/28/28814.png" width="48" height="48" alt="ZIP icon">
+                                <p class="mt-2">Arraste ou clique para selecionar</p>
+                                <input type="file" class="form-control" id="zipFile" name="zip_file" accept=".zip" style="display: none;">
+                                <button type="button" class="btn btn-outline-primary" id="zipSelectBtn">Selecionar arquivo</button>
+                                <div class="file-info" id="zipFileInfo">Nenhum arquivo selecionado</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" id="processBtn">Processar Arquivos</button>
+                    </div>
+                    
+                    <div class="progress mt-3">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                    </div>
+                    
+                    <div class="result-area" id="resultArea">
+                        <h5 class="text-success"><i class="bi bi-check-circle-fill"></i> Processamento concluído!</h5>
+                        <p id="resultMessage"></p>
+                        <div class="match-details" id="matchDetails">
+                            <!-- Detalhes das correspondências serão inseridos aqui -->
+                        </div>
+                        <a href="#" id="downloadBtn" class="btn btn-success mt-3">
+                            <i class="bi bi-download"></i> Baixar arquivo entrada.zip
+                        </a>
+                    </div>
+                    
+                    <div class="error-area" id="errorArea">
+                        <h5 class="text-danger"><i class="bi bi-exclamation-triangle-fill"></i> Erro no processamento</h5>
+                        <p id="errorMessage"></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Como funciona</h4>
+            </div>
+            <div class="card-body">
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <div class="step-title">Selecione a planilha Excel</div>
+                            <div class="step-description">
+                                Faça upload de uma planilha Excel (.xlsx) que contenha os números de NF na coluna B (a partir da linha 2).
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-title">Selecione o arquivo ZIP com XMLs</div>
+                            <div class="step-description">
+                                Faça upload do arquivo ZIP contendo os XMLs de notas fiscais e conhecimentos de transporte.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <div class="step-title">Processamento automático</div>
+                            <div class="step-description">
+                                O sistema verifica se os números da planilha estão contidos no final dos números de NF/CTe nos XMLs.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <div class="step-title">Baixe o resultado</div>
+                            <div class="step-description">
+                                Após o processamento, baixe o arquivo "entrada.zip" contendo apenas os XMLs selecionados.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Processador de XML - Seleção por NF &copy; 2025</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do DOM
+            const uploadForm = document.getElementById('uploadForm');
+            const excelFile = document.getElementById('excelFile');
+            const zipFile = document.getElementById('zipFile');
+            const excelSelectBtn = document.getElementById('excelSelectBtn');
+            const zipSelectBtn = document.getElementById('zipSelectBtn');
+            const excelFileInfo = document.getElementById('excelFileInfo');
+            const zipFileInfo = document.getElementById('zipFileInfo');
+            const processBtn = document.getElementById('processBtn');
+            const progressBar = document.querySelector('.progress');
+            const progressBarInner = document.querySelector('.progress-bar');
+            const resultArea = document.getElementById('resultArea');
+            const resultMessage = document.getElementById('resultMessage');
+            const matchDetails = document.getElementById('matchDetails');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const errorArea = document.getElementById('errorArea');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Eventos para selecionar arquivos
+            excelSelectBtn.addEventListener('click', () => excelFile.click());
+            zipSelectBtn.addEventListener('click', () => zipFile.click());
+            
+            // Atualiza informações do arquivo Excel selecionado
+            excelFile.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const file = this.files[0];
+                    excelFileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+                    excelFileInfo.style.color = '#28a745';
+                } else {
+                    excelFileInfo.textContent = 'Nenhum arquivo selecionado';
+                    excelFileInfo.style.color = '#6c757d';
+                }
+            });
+            
+            // Atualiza informações do arquivo ZIP selecionado
+            zipFile.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    const file = this.files[0];
+                    zipFileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+                    zipFileInfo.style.color = '#28a745';
+                } else {
+                    zipFileInfo.textContent = 'Nenhum arquivo selecionado';
+                    zipFileInfo.style.color = '#6c757d';
+                }
+            });
+            
+            // Envio do formulário
+            uploadForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Verifica se os arquivos foram selecionados
+                if (!excelFile.files.length || !zipFile.files.length) {
+                    showError('Por favor, selecione ambos os arquivos (Excel e ZIP).');
+                    return;
+                }
+                
+                // Prepara os dados para envio
+                const formData = new FormData();
+                formData.append('excel_file', excelFile.files[0]);
+                formData.append('zip_file', zipFile.files[0]);
+                
+                // Mostra a barra de progresso
+                progressBar.style.display = 'flex';
+                progressBarInner.style.width = '0%';
+                
+                // Esconde áreas de resultado e erro
+                resultArea.style.display = 'none';
+                errorArea.style.display = 'none';
+                
+                // Desabilita o botão de processamento
+                processBtn.disabled = true;
+                processBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processando...';
+                
+                // Simula progresso (já que não temos progresso real do servidor)
+                let progress = 0;
+                const progressInterval = setInterval(() => {
+                    progress += 5;
+                    if (progress > 90) {
+                        clearInterval(progressInterval);
+                    }
+                    progressBarInner.style.width = `${progress}%`;
+                }, 300);
+                
+                // Envia os dados para o servidor
+                fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    clearInterval(progressInterval);
+                    progressBarInner.style.width = '100%';
+                    
+                    if (data.success) {
+                        // Mostra área de resultado
+                        resultMessage.textContent = data.message;
+                        
+                        // Exibe detalhes das correspondências, se houver
+                        if (data.details) {
+                            matchDetails.innerHTML = data.details;
+                            matchDetails.style.display = 'block';
+                        } else {
+                            matchDetails.style.display = 'none';
+                        }
+                        
+                        resultArea.style.display = 'block';
+                        downloadBtn.href = data.download_url;
+                    } else {
+                        // Mostra erro
+                        showError(data.error || 'Ocorreu um erro durante o processamento.');
+                    }
+                })
+                .catch(error => {
+                    clearInterval(progressInterval);
+                    console.error('Erro:', error);
+                    showError('Ocorreu um erro na comunicação com o servidor.');
+                })
+                .finally(() => {
+                    // Reabilita o botão de processamento
+                    processBtn.disabled = false;
+                    processBtn.innerHTML = 'Processar Arquivos';
+                });
+            });
+            
+            // Função para formatar o tamanho do arquivo
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            // Função para mostrar erro
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorArea.style.display = 'block';
+                resultArea.style.display = 'none';
+            }
+            
+            // Drag and drop para área de upload do Excel
+            const excelUploadArea = document.getElementById('excelUploadArea');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                excelUploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                excelUploadArea.addEventListener(eventName, () => {
+                    excelUploadArea.style.backgroundColor = '#f0f4f9';
+                    excelUploadArea.style.borderColor = '#4a6da7';
+                }, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                excelUploadArea.addEventListener(eventName, () => {
+                    excelUploadArea.style.backgroundColor = '';
+                    excelUploadArea.style.borderColor = '#ccc';
+                }, false);
+            });
+            
+            excelUploadArea.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length > 0) {
+                    excelFile.files = files;
+                    const file = files[0];
+                    excelFileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+                    excelFileInfo.style.color = '#28a745';
+                }
+            }, false);
+            
+            // Drag and drop para área de upload do ZIP
+            const zipUploadArea = document.getElementById('zipUploadArea');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                zipUploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                zipUploadArea.addEventListener(eventName, () => {
+                    zipUploadArea.style.backgroundColor = '#f0f4f9';
+                    zipUploadArea.style.borderColor = '#4a6da7';
+                }, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                zipUploadArea.addEventListener(eventName, () => {
+                    zipUploadArea.style.backgroundColor = '';
+                    zipUploadArea.style.borderColor = '#ccc';
+                }, false);
+            });
+            
+            zipUploadArea.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length > 0) {
+                    zipFile.files = files;
+                    const file = files[0];
+                    zipFileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
+                    zipFileInfo.style.color = '#28a745';
+                }
+            }, false);
+        });
+    </script>
+</body>
+</html>

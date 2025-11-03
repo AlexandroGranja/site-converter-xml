@@ -1,0 +1,218 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head id="ctl00_Head1"><title>Target Web Login</title><link rel="shortcut icon" href="App_Imagens/logo_target.png"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script language="javascript" type="text/javascript" src="../Scripts/jquery-api/jquery-2.2.3.min.js"></script>
+    <script language="javascript" type="text/javascript" src="../Scripts/token/token.util.js"></script>
+<link href="App_Themes/NotAuthenticate/css/NotAuthenticate.css" type="text/css" rel="stylesheet"><link href="App_Themes/NotAuthenticate/css/reset.min.css" type="text/css" rel="stylesheet"><script type="text/javascript" src="/ScriptResource.axd?d=z3kBmUcyKtaKeD4f0wf7yM5pSBybaLtWDjUcuJxT-M1LRK0wcZaFCDTGPZnlE45dzz_f9Y0VX7wlywlJJXEAR-2I5sza9OcjoMxPJXxayBCGb63T1UBrL4U8dxRO-3_fdYi2CJaHkeGGZyPRASyD8g2&amp;t=ffffffffe191061b"></script><script type="text/javascript">Sys.WebForms.PageRequestManager._addArrayElement('Page_Validators', document.getElementById("ctl00_cphPrincipal_uscLogin_reqfldLogin"));
+Sys.WebForms.PageRequestManager._addArrayElement('Page_Validators', document.getElementById("ctl00_cphPrincipal_uscLogin_rqfldSenha"));
+</script><script type="text/javascript">document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin')['controltovalidate'] = "ctl00_cphPrincipal_uscLogin_txtLogin"
+document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin')['focusOnError'] = "t"
+document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin')['errormessage'] = "* Preencher Login"
+document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin')['display'] = "Dynamic"
+document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin')['validationGroup'] = "login"
+document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin')['evaluationfunction'] = "RequiredFieldValidatorEvaluateIsValid"
+document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin')['initialvalue'] = ""
+document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha')['controltovalidate'] = "ctl00_cphPrincipal_uscLogin_txtSenha"
+document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha')['focusOnError'] = "t"
+document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha')['errormessage'] = "* Preencher Senha"
+document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha')['display'] = "Dynamic"
+document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha')['validationGroup'] = "login"
+document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha')['evaluationfunction'] = "RequiredFieldValidatorEvaluateIsValid"
+document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha')['initialvalue'] = ""
+</script><script type="text/javascript">
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        </script><script type="text/javascript">
+document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin'));
+}
+</script><script type="text/javascript">
+document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha'));
+}
+</script><script type="text/javascript">Array.add(Sys.WebForms.PageRequestManager.getInstance()._onSubmitStatements, function() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+
+return true;
+});
+</script></head>
+
+<body>
+    <form name="aspnetForm" method="post" action="./frmLogin.aspx" onsubmit="javascript:return WebForm_OnSubmit();" id="aspnetForm">
+<div>
+
+
+
+
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['aspnetForm'];
+if (!theForm) {
+    theForm = document.aspnetForm;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=zufgGIX02XOki1jNxeDaIyMb6atcIgqvmdVcraggU-XiAeCs_rnxJLLMvm5azid8KG_iqSX1oaoiiyx1hYFp8IbLVNY6Xv21JawAqvlHM8E1&amp;t=637453960754849868" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=Xm2uDeTo6WKAXEzsLDxsZagPkalSKZzX7t9eSk-sm-e0mG3fqjxojgDN5zEkP18d9qrtd1KuB-i92UFF5CVRLuLR_WeZ-wcTrUDDRoM3H21hjeEk3oL7lA6sZiunkNYU8Qn_JtNu7fzUG0yBY0IbIxBQbKUqPVsHaSy6P6r2im01&amp;t=ffffffffe191061b" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=7otjMfhM8tbPdTRKLtw6KT5Mn9GkbXT7RtDBbiPn9TiP4y-WqxCrcbAt8Cx3u5ow98_5gHWPl6Phg2IXXGA_7MHAVYRjydxPEl3JgacMPYLiWM5iJTRF45eJgg7rNUJlQVkpimXWdOpWmo1xaG0tPzQK2qdQhYQ_2xTz3wUfQ_G8-Tds9ACV0uEVitbZVn640&amp;t=363be08" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=OZQ6iw1bOYajw-GE-DJCus5JG1IAsWfKXvPlhC3nBkQjFlpu2M3YjN5QXL0F--XZ3Q1NK58nYPL4D1gd0GpoJBsmy9av16lZxXUil99PakAvnZMfFjk9H5N-oubsyD82GHJntzx9UU8W7aGVXF-Wm90SJ4Kd6ayChelJR3VfqQ33HwDjR45um9kJQQ4jTEpe0&amp;t=363be08" type="text/javascript"></script>
+<script src="/WebResource.axd?d=PAyAvb0e3RIB2eLGHTXjwTJWV6oWf7L9UpP2cwkzHluRahJ3xd_NCRccH63CN73nUbS2gatwZnetMadhIgPHJfYQRFA9r_2Td_vNKlnlzzg1&amp;t=637453960754849868" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+//]]>
+</script>
+
+<div>
+
+	
+	
+</div>
+
+    <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ctl00$scmMaster', 'aspnetForm', ['tctl00$cphPrincipal$uscLogin$uppLogin',''], [], [], 90, 'ctl00');
+//]]>
+</script>
+
+
+    <div class="wrapper">
+    <div>
+        <div id="login-box">
+            <img class="img-logo" src="../App_Imagens/NotAuthenticate_logo.png" alt="">           
+            
+    <div id="ctl00_cphPrincipal_uscLogin_uppLogin">
+
+        <script language="javascript" type="text/javascript" src="../Scripts/jquery-api/jquery-2.2.3.min.js"></script>
+        <script language="javascript" type="text/javascript" src="../Scripts/token/token.login.js"></script>
+
+		<div id="ctl00_cphPrincipal_uscLogin_pnlLogin">
+	
+            <div class="input-box">                
+                
+                <input name="ctl00$cphPrincipal$uscLogin$txtLogin" type="text" id="ctl00_cphPrincipal_uscLogin_txtLogin" class="login" placeholder="Login">
+                <span id="ctl00_cphPrincipal_uscLogin_reqfldLogin" style="color:Red;border-color:Red;display:none;">* Preencher Login</span>
+                
+                <input name="ctl00$cphPrincipal$uscLogin$txtSenha" type="password" id="ctl00_cphPrincipal_uscLogin_txtSenha" class="password" placeholder="Senha">
+                <span id="ctl00_cphPrincipal_uscLogin_rqfldSenha" style="color:Red;border-color:Red;display:none;">* Preencher Senha</span>	                
+
+            </div>
+            <input type="submit" name="ctl00$cphPrincipal$uscLogin$btnEntrar" value="Entrar" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;ctl00$cphPrincipal$uscLogin$btnEntrar&quot;, &quot;&quot;, true, &quot;login&quot;, &quot;&quot;, false, false))" id="ctl00_cphPrincipal_uscLogin_btnEntrar" class="button">
+            <label for="txtLogin">
+				<a href="frmEsqueciSenha.aspx">Esqueceu a senha?</a>
+			</label>
+            <a class="linkPolitica" href="frmPoliticaPrivacidade.aspx"><span id="ctl00_cphPrincipal_uscLogin_PoliticaPrivacidade_">Política de Cookies</span></a>
+		
+</div>
+
+		
+
+        
+
+	</div>
+
+        </div>
+        </div>
+    </div>
+
+
+    <div id="corpo100" style="display: none;">
+        <div id="footer" style="display: none;">
+			<hr>
+            <p>
+            <b>São Paulo/SP</b> +55 11 3801.4015 | <b>Porto Alegre/RS</b> +55 51 3019.9189 | <b>Recife/PE</b> +55 81 3269.8919<br>
+            <b>Ribeirão Preto/SP</b> +55 16 3442.7816 | <b>Rio de Janeiro/RJ</b> +55 21 3449.1775 | <b>Salvador/BA</b> +55 71 3013.4862<br><br>
+            © Copyright 2009-2015 - Todos os Direitos Reservados
+            </p>
+        </div>
+    </div>
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_Validators =  new Array(document.getElementById("ctl00_cphPrincipal_uscLogin_reqfldLogin"), document.getElementById("ctl00_cphPrincipal_uscLogin_rqfldSenha"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var ctl00_cphPrincipal_uscLogin_reqfldLogin = document.all ? document.all["ctl00_cphPrincipal_uscLogin_reqfldLogin"] : document.getElementById("ctl00_cphPrincipal_uscLogin_reqfldLogin");
+ctl00_cphPrincipal_uscLogin_reqfldLogin.controltovalidate = "ctl00_cphPrincipal_uscLogin_txtLogin";
+ctl00_cphPrincipal_uscLogin_reqfldLogin.focusOnError = "t";
+ctl00_cphPrincipal_uscLogin_reqfldLogin.errormessage = "* Preencher Login";
+ctl00_cphPrincipal_uscLogin_reqfldLogin.display = "Dynamic";
+ctl00_cphPrincipal_uscLogin_reqfldLogin.validationGroup = "login";
+ctl00_cphPrincipal_uscLogin_reqfldLogin.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_cphPrincipal_uscLogin_reqfldLogin.initialvalue = "";
+var ctl00_cphPrincipal_uscLogin_rqfldSenha = document.all ? document.all["ctl00_cphPrincipal_uscLogin_rqfldSenha"] : document.getElementById("ctl00_cphPrincipal_uscLogin_rqfldSenha");
+ctl00_cphPrincipal_uscLogin_rqfldSenha.controltovalidate = "ctl00_cphPrincipal_uscLogin_txtSenha";
+ctl00_cphPrincipal_uscLogin_rqfldSenha.focusOnError = "t";
+ctl00_cphPrincipal_uscLogin_rqfldSenha.errormessage = "* Preencher Senha";
+ctl00_cphPrincipal_uscLogin_rqfldSenha.display = "Dynamic";
+ctl00_cphPrincipal_uscLogin_rqfldSenha.validationGroup = "login";
+ctl00_cphPrincipal_uscLogin_rqfldSenha.evaluationfunction = "RequiredFieldValidatorEvaluateIsValid";
+ctl00_cphPrincipal_uscLogin_rqfldSenha.initialvalue = "";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+    ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+    if (Page_ValidationActive) {
+        return ValidatorCommonOnSubmit();
+    }
+    else {
+        return true;
+    }
+}
+        WebForm_AutoFocus('ctl00_cphPrincipal_uscLogin_txtLogin');
+document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_cphPrincipal_uscLogin_reqfldLogin'));
+}
+
+document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha').dispose = function() {
+    Array.remove(Page_Validators, document.getElementById('ctl00_cphPrincipal_uscLogin_rqfldSenha'));
+}
+//]]>
+</script>
+<span style="display: none !important;"><input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value=""></span><span style="display: none !important;"><input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value=""></span><span style="display: none !important;"><input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value=""></span><span style="display: none !important;"><input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMTEwNDAzMzYyMA9kFgJmD2QWAgIDD2QWAgIDD2QWAgIBD2QWAmYPZBYCZg9kFgYCAQ9kFgQCBA8PFgIeB0VuYWJsZWRnZGQCBQ8PFgIeBFRleHQFFFBvbMOtdGljYSBkZSBDb29raWVzZGQCAw9kFgQCAQ9kFgICAw8QZGQWAGQCAw9kFgICAw8QZGQWAGQCBQ8WAh4HVmlzaWJsZWgWBAIBDw8WAh8BBacBQ29va2llczogdXRpbGl6YW1vcyBjb29raWVzIHBhcmEgcGVyc29uYWxpemFyIHN1YSBuYXZlZ2HDp8OjbyBlIGdhcmFudGlyIGFjZXNzbyDDoCB0b2RhcyBmdW5jaW9uYWxpZGFkZXMgZG8gc2lzdGVtYS4gQW8gY29udGludWFyIG5hdmVnYW5kbywgdm9jw6ogY29uY29yZGEgY29tIGEgbm9zc2FkZAIDDw8WAh8BBRRQb2zDrXRpY2EgZGUgQ29va2llcxYCHgVzdHlsZQUOY29sb3I6I0Q4NDM0MztkZBHicOBjVfthFiQSZl/PONsxIQZlsrQoG40vPnoMepGM"></span><span style="display: none !important;"><input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="0C51E059"></span><span style="display: none !important;"><input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAS3Yb0yiIHDp+tJirF5zloaqlasXoPrlhJc3B7GY/dG19jMJDY6VrdlhAahvQiKOQkAi2L6gF2nOEca5kxdefvr9ppX391AHilTonSR6sjReUpOz6hvxjP5xmHkqQehfE8="></span></form>
+
+
+</body></html>
