@@ -1,5 +1,6 @@
 import sys
 import os
+import base64
 import tempfile
 import zipfile
 import xml.etree.ElementTree as ET
@@ -7,14 +8,18 @@ import re
 import shutil
 import time
 from flask import Flask, request, render_template, send_file, jsonify, url_for
-from werkzeug.utils import secure_filename
 from io import BytesIO
 
 # Configuração do Flask
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-app = Flask(__name__)
+TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
+app = Flask(__name__, template_folder=TEMPLATE_DIR)
 app.config['MAX_CONTENT_LENGTH'] = 50 * 1024 * 1024  # Limite de 50MB para upload
-app.config['UPLOAD_FOLDER'] = os.path.join(tempfile.gettempdir(), 'xml_processor_uploads')
+app.config['UPLOAD_FOLDER'] = (
+    '/tmp/xml_processor_uploads'
+    if os.environ.get('VERCEL')
+    else os.path.join(tempfile.gettempdir(), 'xml_processor_uploads')
+)
 app.config['ALLOWED_EXTENSIONS'] = {'xlsx', 'zip'}
 
 # Garante que a pasta de uploads exista
@@ -265,40 +270,46 @@ def upload_files():
         
         # Processa os arquivos diretamente da memória
         result_file, xml_count, matches = process_files(excel_data, zip_data)
-        
-        # Salva o resultado para download posterior
-        result_path = os.path.join(app.config['UPLOAD_FOLDER'], 'entrada.zip')
-        
-        # Tenta salvar o arquivo com várias tentativas
-        max_attempts = 5
-        for attempt in range(max_attempts):
-            try:
-                with open(result_path, 'wb') as f:
-                    f.write(result_file.getvalue())
-                break  # Se conseguiu salvar, sai do loop
-            except PermissionError:
-                if attempt < max_attempts - 1:
-                    time.sleep(0.5)  # Espera um pouco antes de tentar novamente
-                else:
-                    # Se todas as tentativas falharem, usa um nome de arquivo alternativo
-                    result_path = os.path.join(app.config['UPLOAD_FOLDER'], f'entrada_{int(time.time())}.zip')
-                    with open(result_path, 'wb') as f:
-                        f.write(result_file.getvalue())
-        
+        zip_bytes = result_file.getvalue()
+
         # Prepara mensagem detalhada
         match_details = []
         for nf, full_number in matches.items():
             match_details.append(f"NF {nf} → {full_number}")
-        
+
         match_message = "<br>".join(match_details)
-        
-        # Retorna o caminho para download
-        return jsonify({
+
+        response = {
             'success': True,
             'message': f'{xml_count} XMLs foram processados e compactados com sucesso!',
             'details': match_message,
-            'download_url': url_for('download_result', timestamp=int(time.time()))
-        })
+            'download_filename': 'entrada.zip',
+            # Base64 funciona no Vercel serverless (download na mesma resposta)
+            'file_base64': base64.b64encode(zip_bytes).decode('ascii'),
+        }
+
+        # Fallback local: salva em disco para rota /download
+        if not os.environ.get('VERCEL'):
+            result_path = os.path.join(app.config['UPLOAD_FOLDER'], 'entrada.zip')
+            max_attempts = 5
+            for attempt in range(max_attempts):
+                try:
+                    with open(result_path, 'wb') as f:
+                        f.write(zip_bytes)
+                    break
+                except PermissionError:
+                    if attempt < max_attempts - 1:
+                        time.sleep(0.5)
+                    else:
+                        result_path = os.path.join(
+                            app.config['UPLOAD_FOLDER'],
+                            f'entrada_{int(time.time())}.zip',
+                        )
+                        with open(result_path, 'wb') as f:
+                            f.write(zip_bytes)
+            response['download_url'] = url_for('download_result', timestamp=int(time.time()))
+
+        return jsonify(response)
     
     except Exception as e:
         app.logger.error(f"Erro durante o processamento: {str(e)}")

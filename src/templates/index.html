@@ -352,7 +352,17 @@
                         }
                         
                         resultArea.style.display = 'block';
-                        downloadBtn.href = data.download_url;
+
+                        const filename = data.download_filename || 'entrada.zip';
+                        if (data.file_base64) {
+                            const bytes = Uint8Array.from(atob(data.file_base64), c => c.charCodeAt(0));
+                            const blob = new Blob([bytes], { type: 'application/zip' });
+                            downloadBtn.href = URL.createObjectURL(blob);
+                            downloadBtn.download = filename;
+                        } else if (data.download_url) {
+                            downloadBtn.href = data.download_url;
+                            downloadBtn.removeAttribute('download');
+                        }
                     } else {
                         // Mostra erro
                         showError(data.error || 'Ocorreu um erro durante o processamento.');
